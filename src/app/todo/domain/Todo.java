@@ -1,6 +1,10 @@
 package app.todo.domain;
 
+import app.todo.form.TodoForm.Response;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @since       2020.03.14
@@ -14,37 +18,16 @@ public class Todo {
     private String content;
     private LocalDateTime created_at;
 
-    private Todo(Builder builder) {
-        this.title = builder.title;
-        this.content = builder.content;
-        this.created_at = builder.created_at;
+    public Todo(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.created_at = LocalDateTime.now();
     }
 
-    public static class Builder {
-        private final String title;
-        private final String content;
-
-        private Integer id = 0;
-        private LocalDateTime created_at = LocalDateTime.now();
-
-        public Builder(String title, String content) {
-            this.title = title;
-            this.content = content;
-        }
-
-        public Builder id(Integer id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder content(LocalDateTime created_at) {
-            this.created_at = created_at;
-            return this;
-        }
-
-        public Todo build(){
-            return new Todo(this);
-        }
+    public Todo(Integer id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
     }
 
     public Integer getId() {
@@ -64,9 +47,16 @@ public class Todo {
     }
 
     public void update(Todo todo) {
-        this.id = todo.getId();
         this.title = todo.getTitle();
         this.content = todo.getContent();
+    }
+
+    public static Collection<Response.FindAll> toListFindAll (Collection<Todo> todoList) {
+        Collection<Response.FindAll> findAlls = new ArrayList<>();
+        for (Todo todo : todoList){
+            findAlls.add(new Response.FindAll(todo));
+        }
+        return findAlls;
     }
 
     @Override

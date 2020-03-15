@@ -1,5 +1,7 @@
 package app.todo.repository;
 
+import app.todo.domain.Todo;
+
 import java.util.Collection;
 
 /**
@@ -7,11 +9,11 @@ import java.util.Collection;
  * @description
  * @since 2020.03.14
  **********************************************************************************************************************/
-public interface StorageRepository<Type> {
-    Type    find  (Integer id);
-    Collection<Type> list();
+public interface StorageRepository<T> {
+    T    find  (Integer id);
+    Collection<T> list();
 
-    Integer write (Type type);
-    Integer modify(Type type);
+    Integer write (T todo);
+    Integer modify(T todo);
     void    remove(Integer id);
 }

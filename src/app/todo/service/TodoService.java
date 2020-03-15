@@ -1,16 +1,13 @@
 package app.todo.service;
 
-import app.storage.MemoryRepository;
+import app.storage.MemoryService;
 import app.todo.domain.Todo;
-import app.todo.exception.DataNotFoundException;
 import app.todo.exception.InvalidParameterException;
-import app.todo.form.TodoForm.Response;
 import app.todo.form.TodoForm.Request;
+import app.todo.form.TodoForm.Response.FindAll;
 import app.todo.repository.StorageRepository;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author pollra
@@ -19,34 +16,31 @@ import java.util.stream.Stream;
  **********************************************************************************************************************/
 public class TodoService {
 
-    private StorageRepository repository;
+    private StorageRepository<Todo> repository;
 
-    public TodoService(StorageRepository<Todo> repository) {
+    public TodoService(MemoryService repository) {
         this.repository = repository;
     }
 
-    public Collection<Response.FindAll> list() {
-        return(Collection<Response.FindAll>) repository.list();
+    public Collection<FindAll> list() {
+        return Todo.toListFindAll(repository.list());
     }
 
     public Todo find(Request.find form) throws InvalidParameterException {
         form.validate();
-        final Todo todo = (Todo) repository.find(form.getId());
-        return todo;
+        return repository.find(form.getId());
     }
 
     public Integer write(Request.Add form) throws InvalidParameterException {
         form.validate();
-        final Todo todo = new Todo
-                .Builder(form.getTitle(), form.getContent())
-                .build();
+        final Todo todo = new Todo(form.getTitle(), form.getContent());
         return repository.write(todo);
     }
 
     public Integer modify(Request.Modify form) throws InvalidParameterException {
         form.validate();
-        final Todo todo = (Todo) repository.find(form.getId());
-        todo.update(new Todo.Builder(form.getTitle(), form.getContent()).build());
+        final Todo todo = repository.find(form.getId());
+        todo.update(new Todo(form.getTitle(), form.getContent()));
         return repository.modify(todo);
     }
 

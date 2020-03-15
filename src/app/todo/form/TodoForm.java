@@ -1,14 +1,15 @@
 package app.todo.form;
 
+import app.todo.domain.Todo;
 import app.todo.exception.InvalidParameterException;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * @author pollra
- * @description
- * @since 2020.03.14
+ * @since       2020.03.14
+ * @author      pollra
+ * @description todoForm
  **********************************************************************************************************************/
 public class TodoForm {
     public static class Request {
@@ -124,12 +125,20 @@ public class TodoForm {
     }
 
     public static class Response {
+
         public static class FindAll {
 
             private Integer id;
             private String title;
             private String content;
             private LocalDateTime created_at;
+
+            public FindAll(Todo todo) {
+                this.id = todo.getId();
+                this.title = todo.getTitle();
+                this.content = todo.getContent();
+                this.created_at = todo.getCreated_at();
+            }
 
             public Integer getId() {
                 return id;
@@ -162,6 +171,7 @@ public class TodoForm {
             public void setCreated_at(LocalDateTime created_at) {
                 this.created_at = created_at;
             }
+
         }
     }
 }
