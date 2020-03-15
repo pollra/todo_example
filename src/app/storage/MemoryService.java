@@ -4,6 +4,7 @@ import app.todo.domain.Todo;
 import app.todo.repository.StorageRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,10 +12,10 @@ import java.util.List;
  * @description
  * @since 2020.03.14
  **********************************************************************************************************************/
-public class MemoryRepository<T> implements StorageRepository<Todo> {
+public class MemoryService implements StorageRepository<Todo> {
 
     @Override
-    public List<Todo> list() {
+    public Collection<Todo> list() {
         return new ArrayList<>();
     }
 
@@ -35,6 +36,6 @@ public class MemoryRepository<T> implements StorageRepository<Todo> {
 
     @Override
     public Todo find(Integer integer) {
-        return new Todo.Builder("title", "content").build();
+        return new Todo("title", "content");
     }
 }

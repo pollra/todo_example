@@ -1,9 +1,7 @@
 package app;
 
-import app.storage.MemoryRepository;
-import app.todo.domain.Todo;
+import app.storage.MemoryService;
 import app.todo.form.TodoForm.Request;
-import app.todo.form.TodoForm.Response;
 import app.todo.service.TodoService;
 
 /**
@@ -14,7 +12,7 @@ import app.todo.service.TodoService;
 public class App {
 
     public static void main(String[] args) {
-        TodoService todoService = new TodoService(new MemoryRepository<Todo>());
+        TodoService todoService = new TodoService(new MemoryService());
 
         Request.Add addTest = new Request.Add();
         addTest.setTitle("하이");
@@ -41,5 +39,6 @@ public class App {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+
     }
 }
